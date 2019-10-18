@@ -16,7 +16,7 @@ Website is being developed in R-Shiny.
 APIs used for chemical structure modelling and pathway visualization: PubChem.
 
 # Features
-The website has a predictive modelling interface that utilizes both computer generated chemical structure images and structure name inputs to provide a forecast of the chemical reactions that occur in pathways.  
+The website has a predictive modelling interface that utilizes both computer generated chemical structure images and structure name inputs to provide a forecast of the chemical reactions that occur in pathways.  The textual input will utilize a simple LASSO regression model to determine features of polypharmacy between seemingly unrelated drug compounds.  The visual models will reflect the findings of the LASSO regression model.  
 
 # Installation
 Clone repository to your laptop.  
