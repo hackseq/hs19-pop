@@ -1,0 +1,106 @@
+# Investigation File generated for Scientific Data with Investigation File Authoring Tool version 0.1.0 on 11/10/2017 - This metadata file is CC0
+ONTOLOGY SOURCE REFERENCE
+Term Source Name	GAZ	OBI	ERO	NCIT
+Term Source File	http://data.bioontology.org/ontologies/GAZ	http://data.bioontology.org/ontologies/OBI	http://data.bioontology.org/ontologies/ERO	http://data.bioontology.org/ontologies/NCIT
+Term Source Version	$Revision: 1.512 $	2014-08-18	2013-08-02	17.06d
+Term Source Description	Gazetteer	Ontology for Biomedical Investigations	Eagle-I Research Resource Ontology	National Cancer Institute Thesaurus
+INVESTIGATION
+Investigation Identifier
+Investigation Title
+Investigation Description
+Investigation Submission Date
+Investigation Public Release Date
+INVESTIGATION PUBLICATIONS
+Investigation PubMed ID
+Investigation Publication DOI
+Investigation Publication Author List
+Investigation Publication Title
+Investigation Publication Status
+Investigation Publication Status Term Accession Number
+Investigation Publication Status Term Source REF
+INVESTIGATION CONTACTS
+Investigation Person Last Name
+Investigation Person Mid Initials
+Investigation Person First Name
+Investigation Person Address
+Investigation Person Phone
+Investigation Person Fax
+Investigation Person Email
+Investigation Person Affiliation
+Investigation Person Roles
+Investigation Person Roles Term Accession Number
+Investigation Person Roles Term Source REF
+STUDY
+Study Identifier	10.1038/sdata.2017.167
+Study Title	A dataset quantifying polypharmacy in the United                    States
+Study Submission Date	18/08/2017
+Study Public Release Date	31/10/2017
+Study Description	http://www.nature.com/articles/sdata2017167#abstract
+Study File Name	s_study_Quinn.txt
+Comment[Subject Keywords]	//;//;///;//
+Comment[Manuscript Licence]	CC BY-4.0
+Comment[Experimental Metadata Licence]	CC0
+Comment[Supplementary Information File Name]	
+Comment[Supplementary Information File Type]	x-zip-compressed
+Comment[Supplementary Information File URL]	http://www.nature.com/articles/sdata2017167#supplementary-information
+Comment[Data Repository]	Dryad Digital Repository
+Comment[Data Record Accession]	doi:10.5061/dryad.sm847
+Comment[Data Record URI]	http://dx.doi.org/10.5061/dryad.sm847
+STUDY DESIGN DESCRIPTORS
+Study Design Type	observation design	subject-based data analysis objective
+Study Design Type Term Accession Number	OBI:0300311	ERO:0100125
+Study Design Type Term Source REF	OBI	ERO
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name
+Study Factor Type
+Study Factor Type Term Accession Number
+Study Factor Type Term Source REF
+STUDY ASSAYS
+Study Assay Measurement Type	Polypharmacy
+Study Assay Measurement Type Term Accession Number	""
+Study Assay Measurement Type Term Source REF	""
+Study Assay Technology Type	digital curation
+Study Assay Technology Type Term Accession Number	OBI:0302914
+Study Assay Technology Type Term Source REF	OBI
+Study Assay Technology Platform	""
+Study Assay File Name	a_assay_Quinn.txt
+STUDY PROTOCOLS
+Study Protocol Name	Data source	Drug list curation and drug mapping	Extracting discrete exposure windows from drug prescriptions	Counting concomitant multi-drug exposures
+Study Protocol Type	selection	digital curation	Data Extraction	information processor function
+Study Protocol Type Term Accession Number	OBI:0001928	OBI:0302914	NCIT:C44285	OBI:0000392
+Study Protocol Type Term Source REF	OBI	OBI	NCIT	OBI
+Study Protocol Description				
+Study Protocol URI	""	""	""	""
+Study Protocol Version				
+Study Protocol Parameters Name	""	""	""	""
+Study Protocol Parameters Name Term Accession Number	""	""	""	""
+Study Protocol Parameters Name Term Source REF	""	""	""	""
+Study Protocol Components Name	""	""	""	""
+Study Protocol Components Type	""	""	""	""
+Study Protocol Components Type Term Accession Number	""	""	""	""
+Study Protocol Components Type Term Source REF	""	""	""	""
+STUDY CONTACTS
+Study Person Last Name	Quinn	Shah
+Study Person First Name	Katie J.	Nigam H.
+Study Person Mid Initials		
+Study Person Email	katiequinn@stanford.edu	""
+Study Person Phone		
+Study Person Fax		
+Study Person Address		
+Study Person Affiliation	Stanford Center for Biomedical Informatics                    Research, Stanford,                    California, CA 94305,                    USA	Stanford Center for Biomedical Informatics                    Research, Stanford,                    California, CA 94305,                    USA
+Study Person Roles		
+Study Person Roles Term Accession Number		
+Study Person Roles Term Source REF		
+Comment[Study Person ORCID]		0000-0001-9385-7158
+Comment[Funder]		
+Comment[FundRef ID]		
+Comment[Funder Term Source REF]		
+Comment[Grant Identifier]		

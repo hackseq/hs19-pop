@@ -1,0 +1,2 @@
+Source Name	Material Type	Term Source REF	Term Accession Number	Characteristics[geographical location]	Term Source REF	Term Accession Number	Protocol REF	Sample Name	Material Type	Term Source REF	Term Accession Number
+Truven Health MarketScan Commercial Claims and Encounters and Medicare Supplemental and Coordination of Benefits Databases	database	ERO	ERO:0001716	United States of America	GAZ	GAZ:00002459	Data source	Truven Health Marketscan Databases	electronic health record data	ERO	ERO:0001177
