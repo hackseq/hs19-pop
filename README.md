@@ -31,4 +31,7 @@ The application will then be usable.
 # API Reference:
 PubChem: https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest
 
+# Data References:
+https://snap.stanford.edu/biodata/datasets/10017/10017-ChChSe-Decagon.html
+
 # Current project members:
