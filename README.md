@@ -23,6 +23,9 @@ Clone repository to your laptop.
 > library(shiny)
 
 > runApp("my_app")
+
+Link for Shiny Apps:  
+
 The application will then be usable.  
 
 # API Reference:
