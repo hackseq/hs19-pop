@@ -9,8 +9,8 @@ baseURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
 
 drug_set = set()
 
-with open('cid.csv', newline='') as cid:
-    csvread = csv.reader(cid)
+with open('cid.csv', newline='') as cid_csv:
+    csvread = csv.reader(cid_csv)
     batch_data = list(csvread)
     chosen_drugs = random.sample(batch_data, 20)
     for drug in chosen_drugs:
