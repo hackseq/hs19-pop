@@ -5,19 +5,31 @@ require(dplyr)
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
 drugint <- read.csv("ChChSe-Decagon_polypharmacy.csv")
 colnames(drugint) <- c("drug1ID", "drug2ID", "seID", "seName")
-drugdict <- read.delim("dictionary_drugs.txt")
-drugs <- drugdict$Name ## all the drugs Veenu is going to give us
+drugdict <- read.csv("names.csv")
+# drugs <- drugdict$Name ## all the drugs Veenu is going to give us
+# drugID <- drugdict$ID 
 
 ui <- fluidPage(
     ## This is where we get our real time data
-    selectizeInput(inputId = 'drug.names', label = 'Select candidate drug', 
-                   drugs, multiple=TRUE, options = list(maxItems = 3)),
+    selectInput(inputId = 'search.opt', label = 'Select search category', 
+                c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
+    # conditionalPanel(condition = "input.search.opt == 'drug_names'",
+    #                  selectizeInput(inputId = 'drug.names', label = 'Select candidate drugs', 
+    #                                 drugs, multiple = TRUE, options = list(maxItems = 3))),
+    # conditionalPanel(condition = "input.search.opt == 'compound_ID'",
+    #                  selectizeInput(inputId = 'drug.ID', label = 'Select candidate drugs', 
+    #                                 drugID, multiple = TRUE, options = list(maxItems = 3))),
+    uiOutput("menu"),
     verbatimTextOutput("drug.se")
 )
 
 server <- function(input, output){
+    output$menu <- renderUI({
+        selectizeInput(inputId = 'drug', label = 'Select candidate drugs', 
+                       sort(drugdict[, input$search.opt]), multiple = TRUE, options = list(maxItems = 3))
+    })
     output$drug.se <- renderPrint({
-        userIDs <- drugdict[drugdict$Name %in% input$drug.names, 1] %>% as.vector()
+        userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
         if(length(userIDs) >= 2) {
             userIntAB <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[2], 4])
             userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4]) 
@@ -33,7 +45,9 @@ server <- function(input, output){
             se <- c(se, userIntAC, userIntCA, userIntBC, userIntCB)
             #se <- cat(se, sep = "\n")
         } 
-        if(length(se) == 0) {
+        if (!exists("se")) {
+            "Please select drug candidates"
+        } else if (length(se) == 0) {
             "No unintended side effects observed :)"
         } else {
             paste(se, sep = "\n")
@@ -41,4 +55,4 @@ server <- function(input, output){
     })
 }
 
-shinyApp(ui=ui, server=server)
+shinyApp(ui = ui, server = server)
