@@ -1,6 +1,7 @@
 require(ggplot2)
 require(shiny)
 require(dplyr)
+library(shiny)
 
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
 drugint <- read.csv("ChChSe-Decagon_polypharmacy.csv")
@@ -10,6 +11,12 @@ drugdict <- read.csv("names.csv")
 # drugID <- drugdict$ID 
 
 ui <- fluidPage(
+  mainPanel(
+  tabsetPanel(type = "tabs",
+          tabPanel("About", verbatimTextOutput("summary")),
+          tabPanel("Summary", verbatimTextOutput("summary"))
+          )
+    ),
     ## This is where we get our real time data
     selectInput(inputId = 'search.opt', label = 'Select search category', 
                 c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
@@ -32,16 +39,16 @@ server <- function(input, output){
         userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
         if(length(userIDs) >= 2) {
             userIntAB <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[2], 4])
-            userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4]) 
-            
+            userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4])
+
             se <- c(userIntAB, userIntBA)
         }
         if(length(userIDs) >=3) {
-            userIntAC <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[3], 4]) 
-            userIntCA <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[1], 4]) 
-            userIntBC <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[3], 4]) 
-            userIntCB <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[2], 4]) 
-            
+            userIntAC <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[3], 4])
+            userIntCA <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[1], 4])
+            userIntBC <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[3], 4])
+            userIntCB <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[2], 4])
+
             se <- c(se, userIntAC, userIntCA, userIntBC, userIntCB)
             #se <- cat(se, sep = "\n")
         } 
