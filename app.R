@@ -1,7 +1,7 @@
 require(ggplot2)
 require(shiny)
+require(shinydashboard)
 require(dplyr)
-library(shiny)
 
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
 drugint <- read.csv("ChChSe-Decagon_polypharmacy.csv")
@@ -10,31 +10,50 @@ drugdict <- read.csv("names.csv")
 # drugs <- drugdict$Name ## all the drugs Veenu is going to give us
 # drugID <- drugdict$ID 
 
-ui <- fluidPage(
-  mainPanel(
-  tabsetPanel(type = "tabs",
-          tabPanel("About", verbatimTextOutput("summary")),
-          tabPanel("Summary", verbatimTextOutput("summary"))
-          )
+### ---------- UI conection -------------- ####
+ui <- dashboardPage(
+    
+    ### Title --------------
+    dashboardHeader(title = "PolyMapper"), 
+    
+    ### Sidebar --------------
+    ## This is where we want to add the selective modules for the two different webpages
+    dashboardSidebar(
+        sidebarMenuOutput("menu")
     ),
-    ## This is where we get our real time data
-    selectInput(inputId = 'search.opt', label = 'Select search category', 
-                c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
-    # conditionalPanel(condition = "input.search.opt == 'drug_names'",
-    #                  selectizeInput(inputId = 'drug.names', label = 'Select candidate drugs', 
-    #                                 drugs, multiple = TRUE, options = list(maxItems = 3))),
-    # conditionalPanel(condition = "input.search.opt == 'compound_ID'",
-    #                  selectizeInput(inputId = 'drug.ID', label = 'Select candidate drugs', 
-    #                                 drugID, multiple = TRUE, options = list(maxItems = 3))),
-    uiOutput("menu"),
-    verbatimTextOutput("drug.se")
+    
+    #### Body --------------
+    ### This is where the main 'body' of the webpage goes
+    dashboardBody(
+        tabItems(
+            ### Body for the About page: 
+            tabItem(tabName = "about", p("PolyMapper is a tool that assess polypharmacy risks and side effects based on overlapping pathways and real-time unintended side effects data.")), 
+            ### Body for the PolyMapp page:
+            tabItem(tabName = "polym", p(verbatimTextOutput("drug.se")))
+        )
+    )
+    #verbatimTextOutput("drug.se"))
 )
 
-server <- function(input, output){
-    output$menu <- renderUI({
-        selectizeInput(inputId = 'drug', label = 'Select candidate drugs', 
+### ---------- Server conection -------------- ####
+server <- function(input, output) {
+    output$menu <- renderMenu({
+        sidebarMenu(
+            menuItem("About", tabName = "about", icon = icon("universal-access")),
+            menuItem("PolyMapper", tabName = "polym", icon = icon("capsules")),
+                helpText("Select search term category"),
+                selectInput(inputId = 'search.opt', label = 'Select search category',
+                            c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
+                helpText("Select up to three drugs"),
+                uiOutput("drugSelect")
+        )
+    })
+
+    output$drugSelect <- renderUI({
+        selectizeInput(inputId = 'drug', label = 'Select candidate drugs',
                        sort(drugdict[, input$search.opt]), multiple = TRUE, options = list(maxItems = 3))
     })
+    
     output$drug.se <- renderPrint({
         userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
         if(length(userIDs) >= 2) {
@@ -51,7 +70,7 @@ server <- function(input, output){
 
             se <- c(se, userIntAC, userIntCA, userIntBC, userIntCB)
             #se <- cat(se, sep = "\n")
-        } 
+        }
         if (!exists("se")) {
             "Please select drug candidates"
         } else if (length(se) == 0) {
