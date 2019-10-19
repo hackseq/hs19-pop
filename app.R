@@ -1,6 +1,7 @@
 require(ggplot2)
 require(shiny)
 require(dplyr)
+library(shiny)
 
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
 drugint <- read.csv("ChChSe-Decagon_polypharmacy.csv")
