@@ -2,7 +2,7 @@
 
 ![What is popping at PolyMapper? Well, here is the icon!](https://cdn.iconsflow.com/_EVw3_RGZ8ezMuF0wlyAJn0c0XCbMTKZ0bAbcyI_kEFFNM8I.png)
 
-Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who consume five or more medications.  When a patient is taking five or more drugs, the patient will start to develop adverse and unforeseen health effects.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, selecting biological pathways that are high risk for the combinations of drugs, and providing a platform to model said interactions. 
+Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who consume multiple medications.  When a patient is taking multiple medications, the patient will start to develop adverse and unforeseen health effects.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, selecting biological pathways that are high risk for the combinations of drugs, and providing a platform to model said interactions. 
 
 # Motivation
 PolyMapper is an intuitive website that displays medication data relevant to toxic drug combinations.  The drug interactions data is queried from the BioSNAP database.  The drug data and pathway data is queried from both PubChem and DrugBank.  PolyMapper allows for the user to see the toxic side effects for certain drug combinations and highlights biological pathways that are impacted.  
