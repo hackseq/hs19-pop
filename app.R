@@ -1,14 +1,15 @@
+## Load essential libraries
 require(ggplot2)
 require(shiny)
 require(shinydashboard)
 require(dplyr)
 
+## Read in unintended side effect data
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
 drugint <- read.csv("ChChSe-Decagon_polypharmacy.csv")
 colnames(drugint) <- c("drug1ID", "drug2ID", "seID", "seName")
+## Read in drug dictionary to match compound IDs and drug names
 drugdict <- read.csv("names.csv")
-# drugs <- drugdict$Name ## all the drugs Veenu is going to give us
-# drugID <- drugdict$ID 
 
 ### ---------- UI conection -------------- ####
 ui <- dashboardPage(
@@ -19,7 +20,14 @@ ui <- dashboardPage(
     ### Sidebar --------------
     ## This is where we want to add the selective modules for the two different webpages
     dashboardSidebar(
-        sidebarMenuOutput("menu")
+        sidebarMenu(id="menu1",
+                    menuItem("About", tabName = "about", icon = icon("universal-access")),
+                    menuItem("PolyMapper", tabName = "polym", icon = icon("capsules")),
+                    conditionalPanel(
+                        condition = "input.menu1 == 'polym'",
+                        sidebarMenuOutput("menu")
+                    )
+        )
     ),
     
     #### Body --------------
@@ -29,56 +37,81 @@ ui <- dashboardPage(
             ### Body for the About page: 
             tabItem(tabName = "about", p("PolyMapper is a tool that assess polypharmacy risks and side effects based on overlapping pathways and real-time unintended side effects data.")), 
             ### Body for the PolyMapp page:
-            tabItem(tabName = "polym", p(verbatimTextOutput("drug.se")))
+            tabItem(tabName = "polym", 
+                    tabBox(
+                        title = "Details on each drug",
+                        #color = "teal", 
+                        #solidHeader = TRUE,
+                        #collapsible = TRUE,
+                        # The id lets us use input$tabset1 on the server to find the current tab
+                        id = "t1.dInfo",
+                        tabPanel("Drug1", "drug1 info", color = "teal"),
+                        tabPanel("Drug2", "drug2 info", color = "teal"), 
+                        tabPanel("Drug3", "drug3 info", color = "teal")
+                    ),
+                    fluidRow(
+                        box(title = "Ployly Pathway plot", 
+                            status = "warning"),
+                        box(title = "Side effect lists",
+                            status = "warning", 
+                            side = "right",
+                            textOutput("drug.se"))
+                    )
+            )
         )
     )
-    #verbatimTextOutput("drug.se"))
 )
 
 ### ---------- Server conection -------------- ####
 server <- function(input, output) {
+    
+    ### Sidebar --------------
+    ## Tab menu for the About and PolyMapper tool pages
     output$menu <- renderMenu({
         sidebarMenu(
-            menuItem("About", tabName = "about", icon = icon("universal-access")),
-            menuItem("PolyMapper", tabName = "polym", icon = icon("capsules")),
-                helpText("Select search term category"),
-                selectInput(inputId = 'search.opt', label = 'Select search category',
-                            c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
-                helpText("Select up to three drugs"),
-                uiOutput("drugSelect")
+            helpText("Select search term category"),
+            selectInput(inputId = 'search.opt', label = 'Select search category',
+                        c(DrugNames = "Name", DrugID = "ID"), multiple = F, selectize = T),
+            helpText("Select up to three drugs"),
+            uiOutput("drugSelect")      
         )
+        
     })
-
+    ## Dynamic menu based on the search category user selected
     output$drugSelect <- renderUI({
         selectizeInput(inputId = 'drug', label = 'Select candidate drugs',
                        sort(drugdict[, input$search.opt]), multiple = TRUE, options = list(maxItems = 3))
     })
     
-    output$drug.se <- renderPrint({
+    ### Body --------------
+    ## Extracted the side effects based on the drugs selected
+    output$drug.se <- renderText({
         userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
+        ## In the case of 2 drugs
         if(length(userIDs) >= 2) {
             userIntAB <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[2], 4])
             userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4])
 
             se <- c(userIntAB, userIntBA)
         }
+        ## In the case of 3 drugs
         if(length(userIDs) >=3) {
             userIntAC <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[3], 4])
             userIntCA <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[1], 4])
             userIntBC <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[3], 4])
             userIntCB <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[2], 4])
-
             se <- c(se, userIntAC, userIntCA, userIntBC, userIntCB)
-            #se <- cat(se, sep = "\n")
         }
+        ## Print out a list of side effects
         if (!exists("se")) {
             "Please select drug candidates"
         } else if (length(se) == 0) {
             "No unintended side effects observed :)"
         } else {
-            paste(se, sep = "\n")
+            paste0(se, collapse = ", ")
         }
     })
 }
 
+### ---------- Shiny App -------------- ####
 shinyApp(ui = ui, server = server)
