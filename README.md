@@ -7,6 +7,7 @@ Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations t
 # Motivation
 PolyMapper is an intuitive website that displays medication data relevant to toxic drug combinations.  The drug interactions data is queried from the BioSNAP database.  The drug data and pathway data is queried from both PubChem and DrugBank.  PolyMapper allows for the user to see the toxic side effects for certain drug combinations and highlights biological pathways that are impacted.  
 
+
 PolyMapper is written in R and Python.  R and Python are two programming languages used for scripting in bioinformatics.  The libraries and methodologies used are well-known and are supported by the platforms where the data is provided.
 
 # Build Status
@@ -25,9 +26,22 @@ Website: https://paola-arguello-pascualli.shinyapps.io/hackseq19/
 APIs used for chemical structure modelling and pathway visualization: PubChem and DrugBank.
 
 # Features
-PolyMapper presents drug interaction data and medication data in a straightforward Shiny R application.  The drug interaction data is queried with Python from BioSNAP.  BioSNAP provides drug interaction data that is used for polypharmacy studies.  The data is stored in a CSV file.  The medication data is queried with Python from PubChem and DrugBank.  The relevant information (i.e. drug names and pathways) are stored as JSON objects.  The website then displays the data by drug for adverse drug interactions and affected pathways.  Affected pathways are provided from clustering pathways impacted by the drugs in the drug combinations.  The side effects of the drug combinations are displayed with textual summaries.  Static visualizations of the drug combinations are provided. 
+PolyMapper presents drug interaction data and medication data in a straightforward Shiny R application.  
+
+The drug interaction data is queried with Python from BioSNAP.  BioSNAP provides drug interaction data that is used for polypharmacy studies.  The data is stored in a CSV file.  
+
+The medication data is queried with Python from PubChem and DrugBank.  The relevant information (i.e. drug names and pathways) are stored as JSON objects.  
+
+The website then displays the data by drug for adverse drug interactions and affected pathways.  Affected pathways are provided from clustering pathways impacted by the drugs in the drug combinations.  The side effects of the drug combinations are displayed with textual summaries.  Static visualizations of the drug combinations are provided. 
 
 # Project Goal
+hackseq19:
+
+PolyMapper highlights biological pathways impacted by multiple drugs.  The goal for the hackathon is to provide an application that uses factual drug data and show the drug interactions that affect the same biological pathway. 
+
+Overall:
+
+The next step for the project is to use the pathway data to model drugs that have negative interactions and are not found in the same pathway.  This will require using drug data found in research papers. The eventual use case is to model chemical interactions of theoretical drugs in a virtualized model of different biological and biochemical pathways.  
 
 
 # Installation
@@ -49,6 +63,7 @@ Drug dictionary: https://astro.temple.edu/~tua87106/drug_1626.txt
 
 # Current project members:
 Drug database querying:
+
 Maciej Spiegel: @farmaceut
 
 Roshan Noronha: @roshannoronha
@@ -56,6 +71,7 @@ Roshan Noronha: @roshannoronha
 Tyler Eakes: @Muuuchem
 
 Website team:
+
 Maggie Fu: @maggie-fu
 
 Paola Pascualli: @paolaap1997
