@@ -3,6 +3,7 @@ require(ggplot2)
 require(shiny)
 require(shinydashboard)
 require(dplyr)
+require(imager)
 
 ## Read in unintended side effect data
 #if(!exists("ChChSe-Decagon_polypharmacy.csv")) {R.utils::gunzip("ChChSe-Decagon_polypharmacy.csv.gz")}
@@ -45,9 +46,9 @@ ui <- dashboardPage(
                         #collapsible = TRUE,
                         # The id lets us use input$tabset1 on the server to find the current tab
                         id = "t1.dInfo",
-                        tabPanel("Drug1", "drug1 info", color = "teal"),
-                        tabPanel("Drug2", "drug2 info", color = "teal"), 
-                        tabPanel("Drug3", "drug3 info", color = "teal")
+                        tabPanel("Drug1", "drug1 info", imageOutput("drugImage1")),
+                        tabPanel("Drug2", "drug2 info", imageOutput("drugImage2")), 
+                        tabPanel("Drug3", "drug3 info", imageOutput("drugImage3"))
                     ),
                     fluidRow(
                         box(title = "Ployly Pathway plot", 
@@ -110,6 +111,22 @@ server <- function(input, output) {
         } else {
             paste0(se, collapse = ", ")
         }
+    })
+    output$drugImage1 <- renderPlot({
+        userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
+        img <- paste0("Datasets/drugInfo/drugImages/", userIDs[1], ".jpg")
+        #list(src = img, height = 240, width = 300)
+        plot(load.image(img), axes = FALSE)
+    })
+    output$drugImage2 <- renderPlot({
+        userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
+        img <- paste0("Datasets/drugInfo/drugImages/", userIDs[2], ".jpg")
+        plot(load.image(img), axes = FALSE)
+    })
+    output$drugImage3 <- renderPlot({
+        userIDs <- drugdict[drugdict$Name %in% input$drug, 1] %>% as.vector()
+        img <- paste0("Datasets/drugInfo/drugImages/", userIDs[3], ".jpg")
+        plot(load.image(img), axes = FALSE)
     })
 }
 
