@@ -9,8 +9,14 @@ drugdict <- read.delim("dictionary_drugs.txt")
 drugs <- drugdict$Name ## all the drugs Veenu is going to give us
 
 ui <- fluidPage(
+  mainPanel(
+  tabsetPanel(type = "tabs",
+          tabPanel("About", verbatimTextOutput("summary")),
+          tabPanel("Summary", verbatimTextOutput("summary"))
+          )
+    ),
     ## This is where we get our real time data
-    selectizeInput(inputId = 'drug.names', label = 'Select candidate drug', 
+    selectizeInput(inputId = 'drug.names', label = 'Select candidate drug',
                    drugs, multiple=TRUE, options = list(maxItems = 3)),
     verbatimTextOutput("drug.se")
 )
@@ -20,19 +26,19 @@ server <- function(input, output){
         userIDs <- drugdict[drugdict$Name %in% input$drug.names, 1] %>% as.vector()
         if(length(userIDs) >= 2) {
             userIntAB <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[2], 4])
-            userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4]) 
-            
+            userIntBA <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[1], 4])
+
             se <- c(userIntAB, userIntBA)
         }
         if(length(userIDs) >=3) {
-            userIntAC <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[3], 4]) 
-            userIntCA <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[1], 4]) 
-            userIntBC <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[3], 4]) 
-            userIntCB <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[2], 4]) 
-            
+            userIntAC <- as.character(drugint[drugint$drug1ID == userIDs[1] & drugint$drug2ID == userIDs[3], 4])
+            userIntCA <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[1], 4])
+            userIntBC <- as.character(drugint[drugint$drug1ID == userIDs[2] & drugint$drug2ID == userIDs[3], 4])
+            userIntCB <- as.character(drugint[drugint$drug1ID == userIDs[3] & drugint$drug2ID == userIDs[2], 4])
+
             se <- c(se, userIntAC, userIntCA, userIntBC, userIntCB)
             #se <- cat(se, sep = "\n")
-        } 
+        }
         if(length(se) == 0) {
             "No unintended side effects observed :)"
         } else {
