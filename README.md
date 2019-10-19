@@ -2,24 +2,30 @@
 
 ![What is popping at PolyMapper? Well, here is the icon!](https://cdn.iconsflow.com/_EVw3_RGZ8ezMuF0wlyAJn0c0XCbMTKZ0bAbcyI_kEFFNM8I.png)
 
-Welcome to Polymapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who are taking five or more medications.  When a patient is taking five or more drugs, the patient will start developing adverse health effects that are not known side-effects for the medications they are taking.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, determining which pathways are high risk for the combinations of drugs, and providing a platform to model said interactions. 
+Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who consume five or more medications.  When a patient is taking five or more drugs, the patient will start to develop adverse and unforeseen health effects.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, selecting biological pathways that are high risk for the combinations of drugs, and providing a platform to model said interactions. 
 
 # Motivation
-This needs to discuss what is going on for the project.  Why we decided to use what we did.  RShiny is simpler to deploy for majority of members.  --> For example. 
+PolyMapper is an intuitive website that displays medication data relevant to toxic drug combinations.  The drug interactions data is queried from the BioSNAP database.  The drug data and pathway data is queried from both PubChem and DrugBank.  PolyMapper allows for the user to see the toxic side effects for certain drug combinations and highlights biological pathways that are impacted.  
+
+PolyMapper is written in R and Python.  R and Python are two programming languages used for scripting in bioinformatics.  The libraries and methodologies used are well-known and are supported by the platforms where the data is provided.
 
 # Build Status
 For the duration of this hackathon, no builds like Travis CI will be included.  
 
 # Code Style 
-R Shiny: Shiny modules (https://shiny.rstudio.com/articles/modules.html)
+R Shiny: Shiny modules <https://shiny.rstudio.com/articles/modules.html>
 
+Python: PEP 8 <https://www.python.org/dev/peps/pep-0008/>
+
+Data Files: CSV and JSON
 
 # Tech/Framework Used
 Website: https://paola-arguello-pascualli.shinyapps.io/hackseq19/
-APIs used for chemical structure modelling and pathway visualization: PubChem and DrugBank
+
+APIs used for chemical structure modelling and pathway visualization: PubChem and DrugBank.
 
 # Features
-The website has a predictive modelling interface that utilizes both computer generated chemical structure images and structure name inputs to provide a forecast of the chemical reactions that occur in pathways.  The textual input will utilize a simple LASSO regression model to determine features of polypharmacy between seemingly unrelated drug compounds.  The visual models will reflect the findings of the LASSO regression model.  (Edit this)
+PolyMapper presents drug interaction data and medication data in a straightforward Shiny R application.  The drug interaction data is queried with Python from BioSNAP.  BioSNAP provides drug interaction data that is used for polypharmacy studies.  The data is stored in a CSV file.  The medication data is queried with Python from PubChem and DrugBank.  The relevant information (i.e. drug names and pathways) are stored as JSON objects.  The website then displays the data by drug for adverse drug interactions and affected pathways.  Affected pathways are provided from clustering pathways impacted by the drugs in the drug combinations.  The side effects of the drug combinations are displayed with textual summaries.  Static visualizations of the drug combinations are provided. 
 
 # Project Goal
 
@@ -44,11 +50,14 @@ Drug dictionary: https://astro.temple.edu/~tua87106/drug_1626.txt
 # Current project members:
 Drug database querying:
 Maciej Spiegel: @farmaceut
+
 Roshan Noronha: @roshannoronha
+
 Tyler Eakes: @Muuuchem
 
 Website team:
 Maggie Fu: @maggie-fu
+
 Paola Pascualli: @paolaap1997
 
 Team lead: 
