@@ -2,9 +2,7 @@
 
 ![What is popping at PolyMapper? Well, here is the icon!](https://cdn.iconsflow.com/_EVw3_RGZ8ezMuF0wlyAJn0c0XCbMTKZ0bAbcyI_kEFFNM8I.png)
 
-Welcome to Polymapper!  PolyMapper aims to model and 
-
-Polypharmacy is the description of the adverse effects that arise when multiple medications are consumed by a person. The limit currently recorded for viewing the drug impacts is five.  Five is a seemingly arbitrary number that has been assigned for when any number of drugs, innocuous or not, seems to be a deadly mixture.  Polypharmacy is not well-studied or well-understood.  PolyMapper aims to determine untoward reactions prior to prescribing drugs in order to provide doctors and pharmacists a database to refer to prior to doling out medications.  (Edit this)
+Welcome to Polymapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who are taking five or more medications.  When a patient is taking five or more drugs, the patient will start developing adverse health effects that are not known side-effects for the medications they are taking.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, determining which pathways are high risk for the combinations of drugs, and providing a platform to model said interactions. 
 
 # Motivation
 This needs to discuss what is going on for the project.  Why we decided to use what we did.  RShiny is simpler to deploy for majority of members.  --> For example. 
@@ -13,7 +11,8 @@ This needs to discuss what is going on for the project.  Why we decided to use w
 For the duration of this hackathon, no builds like Travis CI will be included.  
 
 # Code Style 
-R Shiny: Shiny modules.
+R Shiny: Shiny modules (https://shiny.rstudio.com/articles/modules.html)
+
 
 # Tech/Framework Used
 Website: https://paola-arguello-pascualli.shinyapps.io/hackseq19/
@@ -26,8 +25,10 @@ The website has a predictive modelling interface that utilizes both computer gen
 
 
 # Installation
-git clone <link for repository> to your local directory.
+git clone {link for repository} to your local directory.
+
 > cd hs-pop
+
 > runApp("app.R")
 
 # API Reference:
@@ -42,13 +43,13 @@ Drug dictionary: https://astro.temple.edu/~tua87106/drug_1626.txt
 
 # Current project members:
 Drug database querying:
+Maciej Spiegel: @farmaceut
 Roshan Noronha: @roshannoronha
 Tyler Eakes: @Muuuchem
-Maciej Spiegel: @farmaceut
 
 Website team:
-Paola Pascualli: @paolaap1997
 Maggie Fu: @maggie-fu
+Paola Pascualli: @paolaap1997
 
 Team lead: 
 Veena Ghorakavi: @vghorakavi
