@@ -3,6 +3,24 @@ import json
 import random
 import csv
 import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+def downloadPathwayCSV(url):
+    driver = webdriver.Firefox()
+    driver.get(url)
+    #download_button = driver.find_element_by_class_name("btn-text")
+    time.sleep(20)
+    download_button = driver.find_element_by_xpath("//button[@id='Download']")
+    time.sleep(20)
+    download_button.click()
+    time.sleep(20)
+    save_button = driver.find_element_by_xpath("//span[.='Save']")
+    time.sleep(20)
+    save_button.click()
+    time.sleep(20)
+    driver.close()
 
 # base url for pubchem
 baseURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
@@ -63,6 +81,10 @@ for item in drug_set:
     compoundNum = compoundNum.split("/")[0]
     pathwayURL = "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=csv&query={%22download%22:%22*%22,%22collection%22:%22pathway%22,%22where%22:{%22ands%22:[{%22cid%22:%222244%22},{%22core%22:%221%22}]},%22order%22:[%22name,asc%22],%22start%22:1,%22limit%22:10000000,%22downloadfilename%22:%22CID_" + compoundNum + "_pathway%22}"
     pathway = requests.get(pathwayURL).text
+
+    # This will download the code to the pathway
+    downloadpathwayURL = "https://pubchem.ncbi.nlm.nih.gov/compound/"+ compoundNum +"#section=Pathways&fullscreen=true"
+    pathwayCSV = downloadPathwayCSV(downloadPathwayURL)
 
     pathwayData = pd.read_csv(pathwayURL)
 
