@@ -32,12 +32,16 @@ The drug interaction data is queried with Python from BioSNAP.  BioSNAP provides
 
 The medication data is queried with Python from PubChem and DrugBank.  The relevant information (i.e. drug names and pathways) are stored as JSON objects.  
 
-The website then displays the data by drug for adverse drug interactions and affected pathways.  Affected pathways are provided from clustering pathways impacted by the drugs in the drug combinations.  The side effects of the drug combinations are displayed with textual summaries.  Static visualizations of the drug combinations are provided. 
+The website allows the user to input up to 5 medications that they are currently on. Based on that selection PolyMapper displays the following:
+
+1) Data for each drug the user has input. Drug data includes things like synonyms, images and descriptions.
+2) A list of side effects. The side effects of the drug combinations are displayed with textual summaries.  
+3) Drugs that target the same biochemical pathways. In general, if multiple drugs affect the same pathway then there is an increased risk of negative side effects. Affected pathways are provided from clustering pathways impacted by the drugs in the drug combinations.
 
 # Project Goal
 hackseq19:
 
-PolyMapper highlights biological pathways impacted by multiple drugs.  The goal for the hackathon is to provide an application that uses factual drug data and show the drug interactions that affect the same biological pathway. 
+PolyMapper highlights biological pathways impacted by multiple drugs.  The goal for the hackathon is to provide an application that uses factual drug data and show the drug interactions that affect the same biological pathway.
 
 Overall:
 
