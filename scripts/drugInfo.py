@@ -2,7 +2,6 @@
 import csv
 import json
 import random
-import sys
 
 import pandas as pd
 import requests
@@ -10,9 +9,9 @@ import requests
 baseURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
 
 drug_set = set()
-dict_data = dict()
+dict_data = {}
 
-with open('../Datasets/cid.csv', newline='') as cid:
+with open('../datasets/cid.csv', newline='') as cid:
     csvread = csv.reader(cid)
     batch_data = list(csvread)
     chosen_drugs = random.sample(batch_data, 20)
@@ -60,31 +59,23 @@ for item in drug_set:
 
     # pathways for each drug
     compoundNum = compoundNum.split("/")[0]
-    pathwayURL = "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=csv&query={%22download%22:%22*%22,%22collection%22:%22pathway%22,%22where%22:{%22ands%22:[{%22cid%22:%222244%22},{%22core%22:%221%22}]},%22order%22:[%22name,asc%22],%22start%22:1,%22limit%22:10000000,%22downloadfilename%22:%22CID_" + compoundNum + "_pathway%22}"
-    pathway = requests.get(pathwayURL).text
+    pathwayURL = "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=csv&query={" \
+                 "%22download%22:%22*%22,%22collection%22:%22pathway%22,%22where%22:{%22ands%22:[{%22cid%22:%22" + \
+                 compoundNum + "%22},{%22core%22:%221%22}]},%22order%22:[%22name,asc%22],%22start%22:1," \
+                               "%22limit%22:10000000,%22downloadfilename%22:%22CID_" + compoundNum + "_pathway%22} "
 
     pathwayData = pd.read_csv(pathwayURL)
 
-    # drop duplicate names in list
-    pathwayList = pathwayData["name"].tolist()
-    pathways = []
-    for pathway in pathwayList:
-        if pathway in pathways:
-            continue
-        else:
-            pathways.append(pathway)
-
     dict_data[drugName] = {
-            'CID': cid,
-            'IUPACName': IUPAC,
-            'CanonicalSMILES': SMILES,
-            'MolecularFormula': molecularFormula,
-            'Synonyms': synList,
-            'Pathways': pathways
-        }
+        'CID': cid,
+        'IUPACName': IUPAC,
+        'CanonicalSMILES': SMILES,
+        'MolecularFormula': molecularFormula,
+        'Synonyms': synList,
+    }
 
-# create an empty text file and append data to it
-print(dict_data)
+    pathwaySet = set(pathwayData["name"].unique())
+    dict_data[drugName]["Pathways"] = pathwaySet
 
 try:
     with open('drugInfo.csv', 'w', newline='') as csvfile:
@@ -92,7 +83,7 @@ try:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
         writer.writeheader()
         for key, val in sorted(dict_data.items()):
-            row = {'drugName':key}
+            row = {'drugName': key}
             row.update(val)
             writer.writerow(row)
 except IOError:
