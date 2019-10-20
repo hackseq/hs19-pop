@@ -1,24 +1,23 @@
-import requests
+# base url for pubchem
+import csv
 import json
 import random
-import csv
-import pandas as pd
+import sys
 
-# base url for pubchem
+import pandas as pd
+import requests
+
 baseURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
 
 drug_set = set()
+dict_data = dict()
 
-with open('cid.csv', newline='') as cid:
+with open('../Datasets/cid.csv', newline='') as cid:
     csvread = csv.reader(cid)
     batch_data = list(csvread)
     chosen_drugs = random.sample(batch_data, 20)
     for drug in chosen_drugs:
         drug_set.add(drug[0])
-
-#create an empty text file and append data to it
-f = open("drugInfo.txt", "a+")
-f.write("drugName" + "\t" + "cid" + "\t" + "iupac" + "\t" + "smile" + "\t" + "molecularFormula" + "\t" + "synList"  + "\t" + "pathways" + "\n")
 
 for item in drug_set:
     compoundNum = f"{item}/"
@@ -33,8 +32,8 @@ for item in drug_set:
     properties = json.loads(requests.get(propertiesURL).text)
 
     cid = properties["PropertyTable"]["Properties"][0]["CID"]
-    iupac = properties["PropertyTable"]["Properties"][0]["IUPACName"]
-    smile = properties["PropertyTable"]["Properties"][0]["CanonicalSMILES"]
+    IUPAC = properties["PropertyTable"]["Properties"][0]["IUPACName"]
+    SMILES = properties["PropertyTable"]["Properties"][0]["CanonicalSMILES"]
     molecularFormula = properties["PropertyTable"]["Properties"][0]["MolecularFormula"]
 
     # synonyms for each drug
@@ -51,7 +50,7 @@ for item in drug_set:
 
     # 2D image of each drug
     # specify folder where images are stored
-    folderPath = "/home/roshann/Documents/hackseq19-p14/drugImages/"
+    folderPath = "../images/"
     imageURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/" + compoundNum + "/PNG"
 
     imagePath = folderPath + drugName + ".png"
@@ -75,18 +74,26 @@ for item in drug_set:
         else:
             pathways.append(pathway)
 
-    # Name, compound id, IUPAC, SMILES, molecular formula, description, synonyms, Pathways
-    drugInfo = {
-        drugName: {
-            "cid": cid,
-            "iupac": iupac,
-            "smile": smile,
-            "molecularformula": molecularFormula,
-            "pathways": pathways,
-            "synonyms": synList
+    dict_data[drugName] = {
+            'CID': cid,
+            'IUPACName': IUPAC,
+            'CanonicalSMILES': SMILES,
+            'MolecularFormula': molecularFormula,
+            'Synonyms': synList,
+            'Pathways': pathways
         }
-    }
 
-    f.write(str(drugName) + "\t" + str(cid) + "\t" + str(iupac) + "\t" + str(smile) + "\t" + str(molecularFormula) + "\t" + str(synList)  + "\t" + str(pathways) + "\n")
+# create an empty text file and append data to it
+print(dict_data)
 
-f.close()
+try:
+    with open('drugInfo.csv', 'w', newline='') as csvfile:
+        csv_columns = ['drugName', 'CID', 'IUPACName', 'CanonicalSMILES', 'MolecularFormula', 'Synonyms', 'Pathways']
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for key, val in sorted(dict_data.items()):
+            row = {'drugName':key}
+            row.update(val)
+            writer.writerow(row)
+except IOError:
+    print("I/O error")
