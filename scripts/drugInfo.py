@@ -14,7 +14,7 @@ dict_data = {}
 with open('../datasets/cid.csv', newline='') as cid:
     csvread = csv.reader(cid)
     batch_data = list(csvread)
-    chosen_drugs = random.sample(batch_data, 20)
+    chosen_drugs = random.sample(batch_data, 100)
     for drug in chosen_drugs:
         drug_set.add(drug[0])
 
@@ -52,17 +52,21 @@ for item in drug_set:
     folderPath = "../images/"
     imageURL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/" + compoundNum + "/PNG"
 
-    imagePath = folderPath + drugName + ".png"
+    imagePath = folderPath + drugName.replace('/', '').replace('\\', '').title() + ".png"
 
     with open(imagePath, "wb") as code:
-        code.write(requests.get(imageURL).content)
+        try:
+            code.write(requests.get(imageURL).content)
+        except Exception:
+            print(f"Some error occured with " + imagePath)
+            pass
 
     # pathways for each drug
     compoundNum = compoundNum.split("/")[0]
     pathwayURL = "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=csv&query={" \
                  "%22download%22:%22*%22,%22collection%22:%22pathway%22,%22where%22:{%22ands%22:[{%22cid%22:%22" + \
                  compoundNum + "%22},{%22core%22:%221%22}]},%22order%22:[%22name,asc%22],%22start%22:1," \
-                               "%22limit%22:10000000,%22downloadfilename%22:%22CID_" + compoundNum + "_pathway%22} "
+                               "%22limit%22:10000000,%22downloadfilename%22:%22CID_" + compoundNum + "_pathway%22}"
 
     pathwayData = pd.read_csv(pathwayURL)
 
@@ -74,8 +78,13 @@ for item in drug_set:
         'Synonyms': synList,
     }
 
-    pathwaySet = set(pathwayData["name"].unique())
-    dict_data[drugName]["Pathways"] = pathwaySet
+    try:
+        pathwaySet = set(pathwayData["name"].unique())
+        dict_data[drugName]["Pathways"] = pathwaySet
+        print(f"Pathway found for {drugName}")
+    except Exception:
+        print(f"No pathway for {drugName}!")
+        pass
 
 try:
     with open('drugInfo.csv', 'w', newline='') as csvfile:
