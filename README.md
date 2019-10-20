@@ -2,9 +2,9 @@
 
 ![What is popping at PolyMapper? Well, here is the icon!](https://cdn.iconsflow.com/_EVw3_RGZ8ezMuF0wlyAJn0c0XCbMTKZ0bAbcyI_kEFFNM8I.png)
 
-Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who consume multiple medications.  When a patient is taking multiple medications, the patient will start to develop adverse and unforeseen health effects.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, selecting biological pathways that are high risk for the combinations of drugs, and providing a platform to model said interactions. 
+Welcome to PolyMapper!  PolyMapper aims to model and predict drug combinations that will lead to polypharmacy.  Polypharmacy is the condition observed in patients who consume multiple medications.  When a patient is taking multiple medications, the patient will start to develop adverse and unforeseen health effects.  The number of medications that have been reported to provide data for adverse effects range from "2 or more" to "11 or more" medications.  PolyMapper aims to address polypharmacy by determining which combinations of drugs produce adverse effects, selecting biological pathways that are high risk for the combinations of drugs, and providing a platform to model said interactions. 
 
-# Motivation
+# Technical Motivation
 PolyMapper is an intuitive website that displays medication data relevant to toxic drug combinations.  The drug interactions data is queried from the BioSNAP database.  The drug data and pathway data is queried from both PubChem and DrugBank.  PolyMapper allows for the user to see the toxic side effects for certain drug combinations and highlights biological pathways that are impacted.  
 
 
@@ -21,7 +21,6 @@ Python: PEP 8 <https://www.python.org/dev/peps/pep-0008/>
 Data Files: CSV and JSON
 
 # Tech/Framework Used
-Website: https://paola-arguello-pascualli.shinyapps.io/hackseq19/
 
 APIs used for chemical structure modelling and pathway visualization: PubChem and DrugBank.
 
